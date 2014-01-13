@@ -98,12 +98,12 @@ class GlanceNotification(Notification):
                                                  routing_key, json)
         if isinstance(self.payload, dict):
             self.properties = self.payload.get('properties', {})
-            self.image_type = image_type.get_numeric_code(self.payload)
             self.status = self.payload.get('status', None)
             self.uuid = self.payload.get('id', None)
             self.size = self.payload.get('size', None)
             created_at = self.payload.get('created_at', None)
             self.created_at = created_at and utils.str_time_to_unix(created_at)
+            self.image_type = self.properties.get('image_type', None)
         else:
             self.properties = {}
             self.image_type = None
@@ -173,7 +173,7 @@ class GlanceNotification(Notification):
             uuid = image['id']
             deleted_at = image['deleted_at']
             deleted_at = deleted_at and utils.str_time_to_unix(deleted_at)
-
+            image_type = image.get('properties', {}).get('image_type', None)
             if created_at:
                 values = {
                     'uuid': uuid,
@@ -182,7 +182,8 @@ class GlanceNotification(Notification):
                     'owner': self.owner,
                     'size': image['size'],
                     'raw': raw,
-                    'message_id': message_id
+                    'message_id': message_id,
+                    'image_type': image_type
                 }
                 usage = db.get_image_usage(uuid=uuid)
                 values['usage'] = usage
@@ -203,7 +204,8 @@ class GlanceNotification(Notification):
             'created_at': self.created_at,
             'owner': self.owner,
             'size': self.size,
-            'last_raw': raw
+            'last_raw': raw,
+            'image_type': self.image_type
         }
         db.create_image_usage(**values)
 

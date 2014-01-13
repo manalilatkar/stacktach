@@ -84,7 +84,8 @@ def _usage_for_image(image):
         'created_at': dt.dt_to_decimal(image.created_at),
         'owner': image.owner,
         'size': image.size,
-        'last_raw_id': None
+        'last_raw_id': None,
+        'image_type': image.image_type
     }
 
 

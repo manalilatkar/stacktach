@@ -306,7 +306,7 @@ class GlanceNotificationTestCase(StacktachBaseTestCase):
             host="global.preprod-ord.ohthree.com",
             instance=INSTANCE_ID_1,
             request_id='',
-            image_type=0,
+            image_type='snapshot',
             status="saving",
             uuid="2df2ccf6-bc1b-4853-aab0-25fda346b3bb").AndReturn(raw)
 
@@ -365,6 +365,7 @@ class GlanceNotificationTestCase(StacktachBaseTestCase):
                 "size": size,
                 "owner": TENANT_ID_1,
                 "id": "2df2ccf6-bc1b-4853-aab0-25fda346b3bb",
+                "properties":{"image_type": "snapshot"}
             }
         }
         deployment = "1"
@@ -377,7 +378,8 @@ class GlanceNotificationTestCase(StacktachBaseTestCase):
             owner=TENANT_ID_1,
             last_raw=raw,
             size=size,
-            uuid=uuid).AndReturn(raw)
+            uuid=uuid,
+            image_type="snapshot").AndReturn(raw)
         self.mox.ReplayAll()
 
         notification = GlanceNotification(body, deployment, routing_key,
@@ -491,7 +493,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": None,
                     },
                     {
@@ -499,7 +502,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": None,
                     }
                 ]
@@ -523,7 +527,7 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
             host="global.preprod-ord.ohthree.com",
             instance=None,
             request_id='',
-            image_type=0,
+            image_type=None,
             status=None,
             uuid=None).AndReturn(raw)
 
@@ -557,7 +561,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": None,
                     },
                     {
@@ -565,7 +570,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": None,
                     }
                 ]
@@ -589,7 +595,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                 size=size,
                 uuid=uuid,
                 usage=None,
-                message_id="d14cfa51-6a0e-4cf8-9130-804738be96d2").AndReturn(raw)
+                message_id="d14cfa51-6a0e-4cf8-9130-804738be96d2",
+                image_type="snapshot").AndReturn(raw)
 
         self.mox.ReplayAll()
 
@@ -623,7 +630,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": deleted_at,
                     },
                     {
@@ -631,7 +639,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                         "id": uuid,
                         "size": size,
                         "status": "saving",
-                        "properties": {"instance_uuid": INSTANCE_ID_1},
+                        "properties": {"instance_uuid": INSTANCE_ID_1,
+                                       "image_type": "snapshot"},
                         "deleted_at": deleted_at,
                     }
                 ]
@@ -658,7 +667,8 @@ class GlanceExistsNotificationTestCase(StacktachBaseTestCase):
                 usage=None,
                 delete=delete,
                 deleted_at=utils.str_time_to_unix(deleted_at),
-                message_id="d14cfa51-6a0e-4cf8-9130-804738be96d2").AndReturn(raw)
+                message_id="d14cfa51-6a0e-4cf8-9130-804738be96d2",
+                image_type='snapshot').AndReturn(raw)
 
         self.mox.ReplayAll()
 

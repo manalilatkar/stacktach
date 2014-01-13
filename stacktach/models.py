@@ -445,6 +445,7 @@ class ImageUsage(models.Model):
     owner = models.CharField(max_length=50, db_index=True, null=True)
     size = models.BigIntegerField(max_length=20)
     last_raw = models.ForeignKey(GlanceRawData, null=True)
+    image_type = models.CharField(max_length=50, db_index=True, null=True)
 
 
 class ImageDeletes(models.Model):
@@ -504,6 +505,7 @@ class ImageExists(models.Model):
     size = models.BigIntegerField(max_length=20)
     message_id = models.CharField(max_length=50, null=True,
                                   blank=True, db_index=True)
+    image_type = models.CharField(max_length=50, db_index=True, null=True)
 
     def update_status(self, new_status):
         self.status = new_status
